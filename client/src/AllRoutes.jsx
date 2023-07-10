@@ -7,6 +7,11 @@ import DisplayQuestion from './pages/Questions/DisplayQuestion'
 import Tags from './pages/Tags/Tags'
 import Users from "./pages/Users/Users"
 import UserProfile from "./pages/UserProfile/UserProfile"
+import Plans from './pages/Plans/Plans'
+import Success from './pages/Plans/Success'
+import Failure from './pages/Plans/Failure'
+import StripeForm from './pages/Payment/StripeForm'
+
 
 const AllRoutes = () => {
   return (
@@ -19,6 +24,11 @@ const AllRoutes = () => {
       <Route path='/Tags' element={<Tags />} />
       <Route path='/Users' element={<Users />} />
       <Route path='/Users/:id' element={<UserProfile />} />
+      <Route path='/Plans' element={< Plans />}/>
+      <Route path='/Payment' element={< StripeForm />}/>
+      <Route path='/Success' element={< Success />}/>
+      <Route path='/Failure' element={< Failure />} />
+      
     </Routes>
   )
 }

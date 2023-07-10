@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { askQuestion } from "../../actions/question";
-import toast from 'react-hot-toast'
+import toast from 'react-hot-toast';
 
 import "./AskQuestion.css";
-import Editor from '../../components/Editor/Editor'
+import Editor from '../../components/Editor/Editor';
 
 const AskQuestion = () => {
   const [questionTitle, setQuestionTitle] = useState("");
@@ -13,23 +13,38 @@ const AskQuestion = () => {
   const [questionTags, setQuestionTags] = useState("");
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  const User = useSelector(state => state.currentUserReducer)
+  const dispatch = useDispatch();
+  const User = useSelector(state => state.currentUserReducer);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
     if (User) {
       if (questionTitle && questionBody && questionTags) {
+        const noOfQuestions = User.result.noOfQuestions;
+        if (noOfQuestions <= 0) {
+          toast.error('You have reached the question limit for your current plan');
+          return;
+        }
+
         dispatch(askQuestion({
           questionTitle,
           questionBody,
           questionTags,
           userPosted: User.result.name,
-          userId: User?.result._id,
-        }, navigate))
-        toast.success('Question posted successfully')
-      } else toast.error('Please enter value in all the fields')
-    } else toast.error('Please Login to ask question')
+          userId: User.result._id,
+        }, navigate));
+
+        // Update the number of questions remaining for the user
+        User.result.noOfQuestions = noOfQuestions - 1;
+
+        toast.success('Question posted successfully');
+      } else {
+        toast.error('Please enter a value in all the fields');
+      }
+    } else {
+      toast.error('Please login to ask a question');
+    }
   };
 
   return (
@@ -41,8 +56,7 @@ const AskQuestion = () => {
             <label htmlFor="ask-ques-title">
               <h4>Title</h4>
               <p>
-                Be specific and imagine you’re asking a question to another
-                person
+                Be specific and imagine you’re asking a question to another person
               </p>
               <input
                 type="text"
@@ -56,8 +70,7 @@ const AskQuestion = () => {
             <label htmlFor="ask-ques-body">
               <h4>Body</h4>
               <p>
-                Include all the information someone would need to answer your
-                question
+                Include all the information someone would need to answer your question
               </p>
               <Editor
                 value={questionBody}

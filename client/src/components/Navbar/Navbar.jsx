@@ -1,6 +1,6 @@
 import React, { useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, } from 'react-redux'
 import toast from 'react-hot-toast'
 import decode from "jwt-decode";
 
@@ -17,7 +17,6 @@ const Navbar = ({ setIsOpen }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const User = useSelector((state) => (state.currentUserReducer))
-
   const handleLogout = () => {
     dispatch({type: 'LOGOUT'})
     toast.success('Logged out successfully')
@@ -52,10 +51,10 @@ const Navbar = ({ setIsOpen }) => {
             onClick={() => setIsOpen(prev => !prev)}
           >
               Chatbot
-            </Link>
-            <Link to="/" className="nav-item nav-btn res-nav">
-              Community
-            </Link>
+            </Link>       
+          <Link  to='/Plans' className='nav-item nav-btn' >
+            <p>Plans</p>
+          </Link>
         </div>
         <div className="navbar-2">
           <form>
