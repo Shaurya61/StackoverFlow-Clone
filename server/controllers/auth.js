@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-
+import expressJwt from 'express-jwt'
 import Users from '../models/auth.js'
-
+import config from '../config/config.js'
 export const signUpController = async (req, res) => {
   const { name, email, password } = req.body
   try {
@@ -65,4 +65,18 @@ export const logInController = async (req, res) => {
   } catch (error) {
     res.status(500).json("Something went wrong...")
   }
+}
+export const requireSignin = expressJwt({
+  secret: config.jwtSecret,
+  userProperty: 'auth'
+})
+
+export const hasAuthorization = (req, res, next) => {
+  const authorized = req.profile && req.auth && req.profile._id == req.auth._id
+  if (!(authorized)) {
+    return res.status('403').json({
+      error: "User is not authorized"
+    })
+  }
+  next()
 }

@@ -23,6 +23,35 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  planOpted: { 
+    type: String,
+    default: 'Free',
+    required: true
+  },
+  planOptedOn: {
+    type: Date,
+    },
+  noOfQuestions: {
+    type: Number,
+    default:1, 
+    required:true},
+    salt: String,
+    updated: Date,
+    created: {
+      type: Date,
+      default: Date.now
+    },
+    about: {
+      type: String,
+      trim: true
+    },
+    photo: {
+      data: Buffer,
+      contentType: String
+    },
+    following: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+    followers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+    reputations: {type:Number,default:0},
 })
 
-export default mongoose.model('Users', userSchema)
+export default mongoose.model('User', userSchema)
