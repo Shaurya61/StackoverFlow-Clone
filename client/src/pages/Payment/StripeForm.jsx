@@ -14,7 +14,7 @@ const StripeForm = (props) => {
     useEffect(() => {
       // Create PaymentIntent as soon as the page loads
         fetch(
-            "http://localhost:5000/payment/purchasePlan", {
+            "https://stackoverflow-clone-7163.onrender.com/payment/purchasePlan", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ plan: window.location.href.split('?')[1], id: user.result._id }),
